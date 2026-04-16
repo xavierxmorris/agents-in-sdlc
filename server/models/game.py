@@ -20,18 +20,22 @@ class Game(BaseModel):
     
     @validates('title')
     def validate_name(self, key, name):
+        """Validate game titles before persisting."""
         return self.validate_string_length('Game title', name, min_length=2)
     
     @validates('description')
     def validate_description(self, key, description):
+        """Validate game descriptions before persisting."""
         if description is not None:
             return self.validate_string_length('Description', description, min_length=10, allow_none=True)
         return description
     
     def __repr__(self):
+        """Return a concise string representation for debugging."""
         return f'<Game {self.title}, ID: {self.id}>'
 
     def to_dict(self):
+        """Serialize game data for API responses."""
         return {
             'id': self.id,
             'title': self.title,
