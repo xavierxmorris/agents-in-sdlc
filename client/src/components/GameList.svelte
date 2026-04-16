@@ -89,6 +89,9 @@
 
 <div>
     <h2 class="text-2xl font-medium mb-6 text-slate-100">Featured Games</h2>
+    <p class="text-sm text-slate-400 mb-4 max-w-3xl" data-testid="game-list-context">
+        Browse all campaigns or narrow results with one or both filters. Example: choose a publisher and category together for a more focused list, or clear both filters to return to all games.
+    </p>
     
     <!-- Filter controls -->
     <div class="flex flex-wrap gap-4 mb-6" data-testid="filter-controls">
@@ -123,6 +126,9 @@
             </select>
         </div>
     </div>
+    <p class="text-xs text-slate-500 mb-6" data-testid="game-list-edge-case-example">
+        Edge case example: if a filter combination has no matching games, the list will show an empty-state message.
+    </p>
 
     {#if loading}
         <!-- loading animation -->
@@ -151,6 +157,7 @@
         <!-- no games found -->
         <div class="text-center py-12 bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700">
             <p class="text-slate-300">No games match the selected filters.</p>
+            <p class="text-sm text-slate-400 mt-2">Try clearing one filter or selecting “All” to broaden results.</p>
         </div>
     {:else}
         <!-- game list -->

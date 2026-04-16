@@ -26,6 +26,11 @@ Then navigate to the [website](http://localhost:4321) to see the site!
   - `publisher_id` — Filter games by publisher ID
   - `category_id` — Filter games by category ID
   - Both filters can be combined (AND logic)
+  - Example: `GET /api/games?publisher_id=1`
+  - Example: `GET /api/games?category_id=2`
+  - Example: `GET /api/games?publisher_id=1&category_id=2`
+  - Edge case example: non-existent IDs return `[]` with `200 OK`
+  - Edge case example: invalid IDs (for example `publisher_id=abc`) return `400` with an error message
 - `GET /api/games/<id>` — Returns a single game by ID
 
 ### Publishers

@@ -281,6 +281,25 @@ class TestGamesRoutes(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn('error', data)
 
+    def test_filter_empty_category_id(self) -> None:
+        """Test filtering with empty category_id returns 400"""
+        response = self.client.get(f'{self.GAMES_API_PATH}?category_id=')
+        data = self._get_response_data(response)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('error', data)
+
+    def test_filter_valid_publisher_with_invalid_category(self) -> None:
+        """Test mixed valid/invalid filters returns 400 for invalid category_id"""
+        publisher_id = self._get_publisher_id("DevGames Inc")
+        response = self.client.get(
+            f'{self.GAMES_API_PATH}?publisher_id={publisher_id}&category_id=bad-value'
+        )
+        data = self._get_response_data(response)
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('error', data)
+
     def test_no_filter_returns_all(self) -> None:
         """Test that no filter params returns all games"""
         response = self.client.get(self.GAMES_API_PATH)
