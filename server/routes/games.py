@@ -71,9 +71,9 @@ def create_game() -> tuple[Response, int] | Response:
         )
         db.session.add(game)
         db.session.commit()
-    except (ValueError, TypeError) as exc:
+    except (ValueError, TypeError):
         db.session.rollback()
-        return jsonify({"error": str(exc)}), 400
+        return jsonify({"error": "Invalid game data"}), 400
     except SQLAlchemyError:
         db.session.rollback()
         return jsonify({"error": "Failed to create game"}), 500
@@ -109,9 +109,9 @@ def update_game(id: int) -> tuple[Response, int] | Response:
             game.category = category
 
         db.session.commit()
-    except (ValueError, TypeError) as exc:
+    except (ValueError, TypeError):
         db.session.rollback()
-        return jsonify({"error": str(exc)}), 400
+        return jsonify({"error": "Invalid game data"}), 400
     except SQLAlchemyError:
         db.session.rollback()
         return jsonify({"error": "Failed to update game"}), 500
