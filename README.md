@@ -18,6 +18,24 @@ A script file has been created to launch the site. You can run it by:
 
 Then navigate to the [website](http://localhost:4321) to see the site!
 
+## API Endpoints
+
+### Games
+
+- `GET /api/games` — Returns all games. Supports optional query parameters:
+  - `publisher_id` — Filter games by publisher ID
+  - `category_id` — Filter games by category ID
+  - Both filters can be combined (AND logic)
+- `GET /api/games/<id>` — Returns a single game by ID
+
+### Publishers
+
+- `GET /api/publishers` — Returns all publishers (lightweight `{id, name}` list)
+
+### Categories
+
+- `GET /api/categories` — Returns all categories (lightweight `{id, name}` list)
+
 ## Documentation
 
 The complete workshop documentation is automatically published at GitHub Pages and available at:

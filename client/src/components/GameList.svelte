@@ -1,35 +1,88 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
+    interface Publisher {
+        id: number;
+        name: string;
+    }
+
+    interface Category {
+        id: number;
+        name: string;
+    }
+
     interface Game {
         id: number;
         title: string;
         description: string;
-        publisher_name?: string;
-        category_name?: string;
+        publisher: {
+            id: number;
+            name: string;
+        } | null;
+        category: {
+            id: number;
+            name: string;
+        } | null;
     }
 
     export let games: Game[] = [];
     let loading = true;
     let error: string | null = null;
 
-    const fetchGames = async () => {
-        loading = true;
+    let publishers: Publisher[] = [];
+    let categories: Category[] = [];
+    let selectedPublisherId: string = "";
+    let selectedCategoryId: string = "";
+
+    let abortController: AbortController | null = null;
+
+    const fetchFilters = async () => {
         try {
-            const response = await fetch('/api/games');
-            if(response.ok) {
+            const [pubRes, catRes] = await Promise.all([
+                fetch('/api/publishers'),
+                fetch('/api/categories')
+            ]);
+            if (pubRes.ok) publishers = await pubRes.json();
+            if (catRes.ok) categories = await catRes.json();
+        } catch {
+            // Filter dropdowns fail gracefully — games still load
+        }
+    };
+
+    const fetchGames = async () => {
+        // Cancel any in-flight request
+        if (abortController) abortController.abort();
+        abortController = new AbortController();
+
+        loading = true;
+        error = null;
+        try {
+            const params = new URLSearchParams();
+            if (selectedPublisherId) params.set('publisher_id', selectedPublisherId);
+            if (selectedCategoryId) params.set('category_id', selectedCategoryId);
+            const qs = params.toString();
+            const url = `/api/games${qs ? `?${qs}` : ''}`;
+
+            const response = await fetch(url, { signal: abortController.signal });
+            if (response.ok) {
                 games = await response.json();
             } else {
                 error = `Failed to fetch data: ${response.status} ${response.statusText}`;
             }
         } catch (err) {
+            if (err instanceof DOMException && err.name === 'AbortError') return;
             error = `Error: ${err instanceof Error ? err.message : String(err)}`;
         } finally {
             loading = false;
         }
     };
 
+    const handleFilterChange = () => {
+        fetchGames();
+    };
+
     onMount(() => {
+        fetchFilters();
         fetchGames();
     });
 </script>
@@ -37,6 +90,40 @@
 <div>
     <h2 class="text-2xl font-medium mb-6 text-slate-100">Featured Games</h2>
     
+    <!-- Filter controls -->
+    <div class="flex flex-wrap gap-4 mb-6" data-testid="filter-controls">
+        <div class="flex flex-col">
+            <label for="publisher-filter" class="text-sm text-slate-400 mb-1">Publisher</label>
+            <select
+                id="publisher-filter"
+                bind:value={selectedPublisherId}
+                on:change={handleFilterChange}
+                class="bg-slate-800 border border-slate-600 text-slate-200 text-sm rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 min-w-[180px]"
+                data-testid="publisher-filter"
+            >
+                <option value="">All Publishers</option>
+                {#each publishers as pub (pub.id)}
+                    <option value={pub.id}>{pub.name}</option>
+                {/each}
+            </select>
+        </div>
+        <div class="flex flex-col">
+            <label for="category-filter" class="text-sm text-slate-400 mb-1">Category</label>
+            <select
+                id="category-filter"
+                bind:value={selectedCategoryId}
+                on:change={handleFilterChange}
+                class="bg-slate-800 border border-slate-600 text-slate-200 text-sm rounded-lg px-3 py-2 focus:ring-blue-500 focus:border-blue-500 min-w-[180px]"
+                data-testid="category-filter"
+            >
+                <option value="">All Categories</option>
+                {#each categories as cat (cat.id)}
+                    <option value={cat.id}>{cat.name}</option>
+                {/each}
+            </select>
+        </div>
+    </div>
+
     {#if loading}
         <!-- loading animation -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -63,7 +150,7 @@
     {:else if games.length === 0}
         <!-- no games found -->
         <div class="text-center py-12 bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-700">
-            <p class="text-slate-300">No games available at the moment.</p>
+            <p class="text-slate-300">No games match the selected filters.</p>
         </div>
     {:else}
         <!-- game list -->
@@ -81,16 +168,16 @@
                         <div class="relative z-10">
                             <h3 class="text-xl font-semibold text-slate-100 mb-2 group-hover:text-blue-400 transition-colors" data-testid="game-title">{game.title}</h3>
                             
-                            {#if game.category_name || game.publisher_name}
+                            {#if game.category || game.publisher}
                                 <div class="flex gap-2 mb-3">
-                                    {#if game.category_name}
+                                    {#if game.category}
                                         <span class="text-xs font-medium px-2.5 py-0.5 rounded bg-blue-900/60 text-blue-300" data-testid="game-category">
-                                            {game.category_name}
+                                            {game.category.name}
                                         </span>
                                     {/if}
-                                    {#if game.publisher_name}
+                                    {#if game.publisher}
                                         <span class="text-xs font-medium px-2.5 py-0.5 rounded bg-purple-900/60 text-purple-300" data-testid="game-publisher">
-                                            {game.publisher_name}
+                                            {game.publisher.name}
                                         </span>
                                     {/if}
                                 </div>
