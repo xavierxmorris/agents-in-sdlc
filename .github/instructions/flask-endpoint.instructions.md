@@ -19,3 +19,10 @@
 
 - [Endpoint prototype](../../server/routes/games.py)
 - [Tests prototype](../../server/tests/test_games.py)
+
+## Existing endpoints
+
+- `GET /api/games` — List all games (supports `publisher_id` and `category_id` query param filters)
+- `GET /api/games/<id>` — Get a single game
+- `GET /api/publishers` — List all publishers (lightweight `{id, name}`)
+- `GET /api/categories` — List all categories (lightweight `{id, name}`)
