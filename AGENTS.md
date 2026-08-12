@@ -49,7 +49,7 @@ The Python virtual environment is `venv/` in the repository root.
 1. API change → update and run its tests
 2. Frontend change → `npm run build` **and** `npm run test:e2e` both pass
 3. Model change → include a migration if the schema moved
-4. New functionality → update `README.md`
+4. New or changed endpoint → update the `## API` table in `README.md`
 5. Structural change → update this file and `.github/copilot-instructions.md`
 
 ## Agent guidance

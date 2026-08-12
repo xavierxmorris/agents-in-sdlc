@@ -2,7 +2,7 @@
 name: feature-orchestrator
 description: Plans a full-stack Tailspin Toys feature and delegates implementation to specialist subagents
 tools: ['search', 'usages', 'problems', 'runCommands', 'agent']
-agents: ['api-worker', 'ui-worker', 'test-worker', 'reviewer']
+agents: ['api-worker', 'ui-worker', 'test-worker', 'docs-worker', 'reviewer']
 model: ['Claude Sonnet 5', 'Claude Opus 4.5']
 handoffs:
   - label: Adversarial review
@@ -17,9 +17,9 @@ Read `AGENTS.md` before planning.
 
 ## Method
 
-1. **Decompose** the request into backend, frontend, and test units. State the contract between them — endpoint path, query parameters, and the exact JSON keys — *before* delegating. Workers do not share your conversation, so any interface you leave unstated will be invented inconsistently.
+1. **Decompose** the request into backend, frontend, test, and documentation units. State the contract between them — endpoint path, query parameters, and the exact JSON keys — *before* delegating. Workers do not share your conversation, so any interface you leave unstated will be invented inconsistently.
 2. **Delegate** each unit to its specialist. Give each worker its slice plus the shared contract, and nothing else.
-3. **Sequence, don't overlap.** Implementation workers (`api-worker`, `ui-worker`) run before `test-worker`. Never have two workers editing the same file.
+3. **Sequence, don't overlap.** Implementation workers (`api-worker`, `ui-worker`) run first, then `test-worker`, then `docs-worker` — documentation describes what was actually built, so it goes last. Never have two workers editing the same file.
 4. **Synthesise** the returned reports. Resolve contradictions yourself.
 5. **Audit** via `reviewer` before declaring done.
 

@@ -56,7 +56,7 @@ The file has YAML frontmatter followed by the instructions:
 This repository already ships a set of specialists. Let's look at how they fit together.
 
 1. Return to your codespace.
-2. Open the **.github/agents/** folder. You should see five files:
+2. Open the **.github/agents/** folder. You should see six files:
 
    | Agent | Role | Model |
    | --- | --- | --- |
@@ -64,6 +64,7 @@ This repository already ships a set of specialists. Let's look at how they fit t
    | `api-worker` | Flask endpoints only | small |
    | `ui-worker` | Svelte and Astro only | small |
    | `test-worker` | unittest and Playwright only | small |
+   | `docs-worker` | `README.md` and `AGENTS.md` only | small |
    | `reviewer` | Adversarial audit | large |
 
    > [!NOTE]
@@ -127,6 +128,7 @@ Let's build the search feature.
    - The response shape stays exactly as it is today
    - The game listing page gets a search box that filters results as the user types
    - Tests cover: a match, no matches, and an empty search term
+   - The `## API` table in README.md reflects the new parameter
 
    State the exact JSON contract before delegating to any worker.
    ```
@@ -146,7 +148,7 @@ Let's build the search feature.
 
 8. Let the orchestrator delegate. Each worker runs as a nested call in the chat.
 
-9. **Confirm the delegation actually happened.** Subagent calls may appear collapsed. Expand them and check that `api-worker`, `ui-worker`, and `test-worker` each ran. If the orchestrator did the work itself, say so and ask it to delegate:
+9. **Confirm the delegation actually happened.** Subagent calls may appear collapsed. Expand them and check that `api-worker`, `ui-worker`, `test-worker`, and `docs-worker` each ran. If the orchestrator did the work itself, say so and ask it to delegate:
 
    ```plaintext
    You edited files directly. Delegate the remaining work to the named workers.
@@ -217,13 +219,39 @@ Agents report. You verify.
 
 4. Commit your work once everything passes.
 
-## Optional: write your own worker
+## Make it yours
 
-The set of agents in this repository is a starting point, not a fixed list.
+The set of agents in this repository is a starting point, not a fixed list. Let's change one and see the effect immediately.
 
-Create **.github/agents/docs-worker.agent.md** for a specialist that keeps `README.md` current when endpoints change. Give it a small model, restrict its tools to search and edit, and require a compact structured return. Then add `docs-worker` to the orchestrator's `agents` list so it can be delegated to.
+The `reviewer` catches a lot, but it doesn't yet know anything about search specifically.
 
-Ask yourself what the *specific* failure modes are for documentation in this repo, and name them — the same way the reviewer names its own.
+1. Open **.github/agents/reviewer.agent.md**.
+2. Add a search-specific item to the **Frontend** section of the hunt list — for example:
+
+   ```markdown
+   13. Does the search box fire a request on every keystroke without debouncing?
+   ```
+
+3. Renumber the items after it so the numbering stays contiguous, since the return contract cites items by number.
+4. Re-run the audit:
+
+   ```plaintext
+   Audit the changes on this branch against your hunt list.
+   ```
+
+5. See whether the new check fires. If your implementation does debounce, try temporarily removing it to confirm the reviewer actually catches it — a check you've never seen fail is a check you don't know works.
+
+That last point generalises. An automated reviewer that has never returned `fail` is not evidence of clean code; it's an untested reviewer.
+
+### Going further
+
+Other specialists worth building for a real project:
+
+- a **migration-worker** that owns schema changes and refuses to edit a migration that has already shipped
+- an **accessibility-worker** that audits only rendered markup against a named standard
+- a **perf-worker** that looks for N+1 queries introduced by a change
+
+For each one, the useful question is the same: *what are the specific ways this goes wrong in this codebase?* Name those, the way the reviewer names its own. "Check carefully" is not an instruction.
 
 ## Summary
 

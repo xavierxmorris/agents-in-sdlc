@@ -52,8 +52,12 @@ If a hunt-list item fires on a line the diff did not touch, ignore it.
 17. A workflow job without an explicit `permissions:` block?
 18. A new dependency added unpinned?
 
+**Documentation**
+19. Endpoint added or changed without a matching row in the `## API` table in `README.md`?
+20. Documented response shape disagreeing with the model's actual `to_dict` keys or casing?
+
 **Circularity**
-19. Does the change assume the very thing it is supposed to establish — for example a test whose fixture hard-codes the value the implementation is meant to compute?
+21. Does the change assume the very thing it is supposed to establish — for example a test whose fixture hard-codes the value the implementation is meant to compute?
 
 ## Verify before judging
 
