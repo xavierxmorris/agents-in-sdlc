@@ -1,8 +1,8 @@
 ---
-name: UI Worker
+name: ui-worker
 description: Builds Svelte components and Astro pages using Tailwind, dark mode, and accessible markup
 tools: ['search', 'edit', 'runCommands', 'problems']
-model: claude-haiku-4.5
+model: ['Claude Haiku 4.5', 'Claude Sonnet 5']
 user-invocable: false
 ---
 

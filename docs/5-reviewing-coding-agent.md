@@ -107,14 +107,20 @@ You have made great progress through the lab, and we're approaching the end. How
 
 ## Summary
 
-Congratulations! You completed the lab! You worked through several features available to you with GitHub Copilot, from the IDE to the repository. In particular you:
+Nicely done — that's the core lab complete! You worked through several features available to you with GitHub Copilot, from the IDE to the repository. In particular you:
 
 - **Learned how to use GitHub Copilot and the Model Context Protocol (MCP) to streamline software development**. You set up the GitHub MCP server to enable Copilot to interact with your repository, created a detailed backlog using Copilot Agent Mode.
 - **Explored how custom instructions and prompt files can guide Copilot to follow your project's coding standards.** You created a custom instructions file to provide context for Copilot, ensuring it generates code that adheres to your project's guidelines and used prompt files to provide guidance for repetitive tasks and established practices.
 - **Used Copilot Agent Mode to implement new features, coordinate changes across backend and frontend code, and automate repetitive tasks.** You used GitHub Copilot to implement a new category and publisher filter for the game listing page, making changes across the client, backend, and the resulting tests.
 - **Experienced Copilot as a peer programmer, being assigned issues and working collaboratively on pull requests.** You assigned Copilot to issues in your backlog, allowing it to create a pull request, build a plan, implement changes, and iterate further as you provided feedback.
 
-This is just the beginning, and we can't wait to see how you use Copilot to help you with your own projects. We hope you enjoyed the lab, and we look forward to seeing you in the next one! Happy coding!
+This is just the beginning, and we can't wait to see how you use Copilot to help you with your own projects.
+
+Everything so far has had you driving a single agent. The two exercises that follow go further: orchestrating **several specialist agents** at once, then handing work to agents that run **without you** at all.
+
+## Next step
+
+[Next exercise: Orchestrating specialist agents](./6-custom-agents-subagents.md)
 
 ## Resources
 

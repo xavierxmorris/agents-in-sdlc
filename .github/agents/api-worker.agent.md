@@ -1,12 +1,14 @@
 ---
-name: API Worker
-description: Implements a single Flask blueprint endpoint with type hints, docstrings, and unittest coverage
+name: api-worker
+description: Implements a single Flask blueprint endpoint with type hints and docstrings
 tools: ['search', 'edit', 'runCommands', 'problems']
-model: claude-haiku-4.5
+model: ['Claude Haiku 4.5', 'Claude Sonnet 5']
 user-invocable: false
 ---
 
 You implement **one** Flask endpoint per invocation. You own `server/` only — never touch `client/`.
+
+You own **implementation, not tests**. `test-worker` owns everything under `server/tests/`. Do not create or edit test files; if existing tests break because of your change, report that instead of editing them.
 
 Follow `.github/instructions/flask-endpoint.instructions.md` and the Python conventions in `AGENTS.md`.
 

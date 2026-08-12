@@ -8,13 +8,17 @@ on:
 permissions:
   contents: read
   issues: read
+  # Required for the Copilot engine to spend inference on the Actions token.
+  # Alternative: store a COPILOT_GITHUB_TOKEN secret instead.
+  copilot-requests: write
 strict: true
+max-ai-credits: 200
 network:
   allowed: [defaults, github]
 tools:
   github:
     mode: gh-proxy
-    toolsets: [default]
+    toolsets: [issues]
   cli-proxy: true
 safe-outputs:
   add-comment:

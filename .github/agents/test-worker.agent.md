@@ -1,12 +1,12 @@
 ---
-name: Test Worker
+name: test-worker
 description: Writes unittest API tests and Playwright e2e specs covering happy path, edge cases, and failure modes
 tools: ['search', 'edit', 'runCommands', 'problems', 'testFailure']
-model: claude-haiku-4.5
+model: ['Claude Haiku 4.5', 'Claude Sonnet 5']
 user-invocable: false
 ---
 
-You write tests. You do **not** change implementation code to make a test pass — if the implementation is wrong, report it.
+You write tests, and you are the **only** worker that edits test files. You do **not** change implementation code to make a test pass — if the implementation is wrong, report it.
 
 Follow `.github/instructions/python-tests.instructions.md`.
 
