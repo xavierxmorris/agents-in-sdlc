@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Modernization plan — Agents in the SDLC workshop</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --line:#30363d; --ink:#e6edf3;
+    --muted:#9198a1; --accent:#58a6ff; --good:#3fb950; --warn:#d29922; --bad:#f85149;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:56px 24px 96px}
+  header{border-bottom:1px solid var(--line);padding-bottom:28px;margin-bottom:40px}
+  h1{font-size:2.1rem;line-height:1.2;margin:0 0 12px;letter-spacing:-.02em}
+  h2{font-size:1.4rem;margin:48px 0 14px;padding-top:20px;border-top:1px solid var(--line);letter-spacing:-.01em}
+  h3{font-size:1.08rem;margin:30px 0 10px;color:var(--accent)}
+  p{margin:0 0 14px}
+  .meta{color:var(--muted);font-size:.9rem;margin:0}
+  .meta a{color:var(--accent);text-decoration:none}
+  .meta a:hover{text-decoration:underline}
+  .lede{font-size:1.12rem;color:#c9d1d9;border-left:3px solid var(--accent);padding:12px 0 12px 18px;margin:22px 0;background:rgba(88,166,255,.05)}
+  table{width:100%;border-collapse:collapse;margin:18px 0;font-size:.93rem}
+  th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em}
+  tbody tr:hover{background:rgba(255,255,255,.02)}
+  code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.87em}
+  pre{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;overflow-x:auto;margin:16px 0}
+  pre code{background:none;border:none;padding:0;font-size:.85rem;line-height:1.6}
+  ul,ol{margin:0 0 14px;padding-left:22px}
+  li{margin:6px 0}
+  .no{color:var(--bad);font-weight:600}
+  .part{color:var(--warn);font-weight:600}
+  .yes{color:var(--good);font-weight:600}
+  .new{display:inline-block;background:rgba(63,185,80,.15);color:var(--good);border:1px solid rgba(63,185,80,.4);border-radius:4px;padding:0 6px;font-size:.72rem;font-weight:700;letter-spacing:.04em}
+  .chg{display:inline-block;background:rgba(210,153,34,.15);color:var(--warn);border:1px solid rgba(210,153,34,.4);border-radius:4px;padding:0 6px;font-size:.72rem;font-weight:700;letter-spacing:.04em}
+  .layers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:22px 0}
+  .layer{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+  .layer h4{margin:0 0 6px;font-size:.95rem;color:var(--accent)}
+  .layer p{margin:0;font-size:.9rem;color:var(--muted)}
+  .callout{background:rgba(248,81,73,.07);border:1px solid rgba(248,81,73,.35);border-radius:8px;padding:16px 18px;margin:20px 0}
+  .callout strong{color:var(--bad)}
+  footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Modernization plan — Agents in the SDLC workshop</h1>
+  <p class="meta">
+    Fork <code>xavierxmorris/agents-in-sdlc</code> · upstream <code>se-copilot-workshops/agents-in-sdlc</code> @ <code>aef8522</code><br>
+    12 August 2026 · grounded in
+    <a href="https://github.com/github/gh-aw/blob/main/.github/aw/subagents.md">subagents.md</a>,
+    <a href="https://github.com/github/gh-aw/blob/main/.github/aw/multi-agent-research.md">multi-agent-research.md</a>,
+    <a href="https://github.com/github/gh-aw">github/gh-aw</a>
+  </p>
+</header>
+
+<h2>1. Where the workshop stands</h2>
+<p>Six exercises, ~1,100 lines of docs, over a Flask + SQLAlchemy API and an Astro 5 / Svelte 5 / Tailwind 4 frontend with Playwright e2e.</p>
+<table>
+  <thead><tr><th>#</th><th>Exercise</th><th>Capability taught</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td>Prereqs</td><td>Template repo → Codespace</td></tr>
+    <tr><td>1</td><td>Coding agent</td><td>Issue → PR, async delegation</td></tr>
+    <tr><td>2</td><td>MCP</td><td>GitHub MCP server, create backlog</td></tr>
+    <tr><td>3</td><td>Custom instructions</td><td><code>copilot-instructions.md</code>, <code>*.instructions.md</code></td></tr>
+    <tr><td>4</td><td>Agent mode</td><td>Site-wide change in VS Code</td></tr>
+    <tr><td>5</td><td>Review</td><td>Reviewing the coding agent's PR</td></tr>
+  </tbody>
+</table>
+<p class="lede">It is a solid <strong>single-agent</strong> workshop. Every exercise is one human driving one agent.</p>
+
+<h2>2. The gap</h2>
+<p>The product has moved from “an assistant that helps you code” to <strong>an agent platform you operate</strong>. The workshop does not yet teach the platform.</p>
+<table>
+  <thead><tr><th>Capability</th><th>Status (Aug 2026)</th><th>Workshop</th></tr></thead>
+  <tbody>
+    <tr><td><code>AGENTS.md</code> open standard</td><td>GA</td><td class="no">absent</td></tr>
+    <tr><td>Custom agents (<code>.github/agents/*.agent.md</code>)</td><td>GA — VS Code + JetBrains</td><td class="no">absent</td></tr>
+    <tr><td>Subagents / planner–worker orchestration</td><td>GA</td><td class="no">absent</td></tr>
+    <tr><td>Plan agent (plan-then-execute)</td><td>GA</td><td class="no">absent</td></tr>
+    <tr><td>Agentic Workflows (<code>gh-aw</code>) — Continuous AI</td><td>Public preview</td><td class="no">absent</td></tr>
+    <tr><td>Safe outputs, sandboxing, threat detection</td><td>via gh-aw</td><td class="no">absent</td></tr>
+    <tr><td>Agent hooks (<code>hooks.json</code>)</td><td>Public preview</td><td class="no">absent</td></tr>
+    <tr><td>Model selection &amp; cost control</td><td>GA</td><td class="no">absent</td></tr>
+    <tr><td>MCP <code>gh-proxy</code>, scoped toolsets</td><td>GA</td><td class="part">one server, no scoping</td></tr>
+    <tr><td>Copilot code review</td><td>GA</td><td class="part">implicit in Ex 5</td></tr>
+  </tbody>
+</table>
+
+<h3>Stale details worth fixing</h3>
+<ul>
+  <li><code>docs/README.md</code> advertises “prompt files, and chat participants” for Ex 3 — chat participants are legacy terminology, and prompt files are never actually taught.</li>
+  <li><code>server/requirements.txt</code> was fully unpinned. This contradicted the repo's own instruction to “follow good security practices” and made the lab non-reproducible.</li>
+  <li><code>run-tests.yml</code> pinned <code>setup-python@v4</code> / <code>setup-node@v4</code> — four majors behind current (<code>v7</code>).</li>
+  <li>Ex 0 requires creating the repo <em>inside the <code>se-copilot-workshops</code> org</em> for coding-agent access — the most common cause of a blocked start. A fork-based flow is portable.</li>
+  <li><code>.vscode/mcp.json</code> registers only the GitHub MCP server, despite Playwright already being a project dependency.</li>
+</ul>
+
+<h2>3. The reframe</h2>
+<p class="lede">From <em>“Copilot helps you write this feature”</em> → <em>“you design, delegate to, and govern a fleet of agents across the SDLC.”</em></p>
+<div class="layers">
+  <div class="layer"><h4>Layer 1 — Context engineering</h4><p>What the agent knows before it starts.</p></div>
+  <div class="layer"><h4>Layer 2 — Delegation</h4><p>Who does the work, and how it is decomposed.</p></div>
+  <div class="layer"><h4>Layer 3 — Continuous AI</h4><p>Work with no human in the loop — and the guardrails that make that safe.</p></div>
+</div>
+
+<h2>4. Proposed exercise structure</h2>
+<table>
+  <thead><tr><th>#</th><th>Exercise</th><th>Change</th><th>Layer</th></tr></thead>
+  <tbody>
+    <tr><td>0</td><td>Setup</td><td><span class="chg">REVISE</span> fork-based, drop org dependency</td><td>—</td></tr>
+    <tr><td>1</td><td>Coding agent</td><td>Keep; add model selection + cost framing</td><td>2</td></tr>
+    <tr><td>2</td><td>MCP</td><td><span class="chg">EXTEND</span> Playwright MCP, <code>gh-proxy</code>, toolset scoping</td><td>1</td></tr>
+    <tr><td>3</td><td>Context engineering</td><td><span class="chg">REWRITE</span> <code>AGENTS.md</code> first, precedence, prompt files</td><td>1</td></tr>
+    <tr><td>4</td><td>Agent mode + plan mode</td><td><span class="chg">EXTEND</span> plan before execute</td><td>2</td></tr>
+    <tr><td>5</td><td>Custom agents &amp; subagents</td><td><span class="new">NEW</span> planner–worker on the filter feature</td><td>2</td></tr>
+    <tr><td>6</td><td>Continuous AI with <code>gh-aw</code></td><td><span class="new">NEW</span> agentic workflow with inline subagents</td><td>3</td></tr>
+    <tr><td>7</td><td>Guardrails</td><td><span class="new">NEW</span> safe outputs, least privilege, hooks</td><td>3</td></tr>
+    <tr><td>8</td><td>Review</td><td>Keep; add Copilot code review + agentic PR review</td><td>3</td></tr>
+  </tbody>
+</table>
+
+<h3>4.1 Ex 3 rewrite — context engineering</h3>
+<p>Teach the <strong>hierarchy</strong>, not just one file:</p>
+<pre><code>AGENTS.md                        ← portable root; Copilot, Claude, Codex, Cursor, Gemini
+.github/copilot-instructions.md  ← Copilot-specific additions
+.github/instructions/*.md        ← path-scoped via applyTo frontmatter
+.github/prompts/*.prompt.md      ← invocable, parameterised tasks</code></pre>
+<p>The teachable moment: the repo already has three <code>.instructions.md</code> files but <strong>no <code>AGENTS.md</code></strong>. Learners add it, then watch the same context steer a <em>different vendor's</em> agent — portability made concrete.</p>
+
+<h3>4.2 Ex 5 (new) — custom agents &amp; subagent orchestration</h3>
+<p>Apply the <strong>planner–worker pattern</strong> to the existing filter feature:</p>
+<ul>
+  <li><strong>Orchestrator</strong> (frontier model) — decomposes, synthesises, decides</li>
+  <li><code>api-worker</code> (small) — Flask blueprint + endpoint</li>
+  <li><code>ui-worker</code> (small) — Svelte component</li>
+  <li><code>test-worker</code> (small) — unittest + Playwright specs</li>
+  <li><code>reviewer</code> (large) — adversarial audit with a <strong>domain-specific hunt list</strong>, not “check carefully”</li>
+</ul>
+<p>Key lessons, straight from the source guidance: match model to task (the cost lever); workers return <strong>compact structured output</strong>, never raw logs; <strong>one level of delegation only</strong>; bounded, evidence-first worker prompts.</p>
+
+<h3>4.3 Ex 6 (new) — Continuous AI</h3>
+<p><code>gh-aw</code> compiles Markdown + YAML frontmatter into a real GitHub Actions workflow. Learners ship an <strong>issue-triage workflow with inline subagents</strong> — the repo starts maintaining itself.</p>
+
+<h3>4.4 Ex 7 (new) — guardrails</h3>
+<p>The security exercise the workshop currently lacks: agent jobs read-only and sandboxed by default, writes through validated <code>safe-outputs</code>; least-privilege <code>permissions:</code>; why untrusted issue text never reaches a shell step; <code>max-ai-credits</code> and fan-out caps as runaway-cost circuit breakers; agent hooks for policy enforcement.</p>
+
+<h3>4.5 Advanced track — deep research pattern</h3>
+<p><code>multi-agent-research.md</code> supplies a genuinely advanced module: anti-convergence orchestration (information hiding, idea-keyed registry, delayed cross-pollination), blocked-route bookkeeping in <code>cache-memory</code>, adversarial verification, and an artifact-only return contract — applied to a real repo question such as <em>“what is our highest-risk untested code path?”</em></p>
+
+<h2>5. Repo hygiene</h2>
+<table>
+  <thead><tr><th>Fix</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td>Pin <code>server/requirements.txt</code></td><td>Reproducibility + supply chain; <code>flask-cors &lt; 6</code> carries known CVEs</td></tr>
+    <tr><td><code>setup-python</code>/<code>setup-node</code>/<code>checkout</code>/<code>upload-artifact</code> → v7</td><td>Four majors behind</td></tr>
+    <tr><td>Add <code>.gitattributes</code> marking <code>*.lock.yml</code> generated</td><td>Required before any gh-aw workflow lands</td></tr>
+    <tr><td>Add Playwright MCP to <code>.vscode/mcp.json</code></td><td>Already a dependency; free second server for Ex 2</td></tr>
+    <tr><td>Fix “chat participants” in <code>docs/README.md</code></td><td>Legacy terminology</td></tr>
+  </tbody>
+</table>
+
+<h2>6. Sequencing</h2>
+<ol>
+  <li><strong>Repo hygiene</strong> — independent, no doc churn, lands immediately.</li>
+  <li><strong><code>AGENTS.md</code> + custom agents + prompt files</strong> — seed artifacts; enables Ex 3 and Ex 5.</li>
+  <li><strong>First <code>gh-aw</code> workflow</strong> — requires <code>gh aw compile</code>; enables Ex 6 and Ex 7.</li>
+  <li><strong>Doc rewrites</strong> — last, once the artifacts they describe exist and have been run.</li>
+</ol>
+
+<h2>7. Known blocker</h2>
+<div class="callout">
+  <p><strong>gh-aw CLI cannot be installed from this machine.</strong> The <code>github</code> org enforces SAML SSO and the active token is not authorized:</p>
+  <pre><code>HTTP 403: Resource protected by organization SAML enforcement</code></pre>
+  <p style="margin-bottom:0">Authorize at <code>https://github.com/orgs/github/sso</code>, or use the token-free install script. Until then the workflow <code>.md</code> source can be authored but <strong>not compiled</strong> to <code>.lock.yml</code>, and an uncompiled agentic workflow will not run. No hand-written <code>.lock.yml</code> should be committed — it is generated output.</p>
+</div>
+
+<footer>Generated alongside <code>plan.md</code> — keep both in sync.</footer>
+
+</div>
+</body>
+</html>

@@ -16,9 +16,11 @@ The labs will walk you through the most common workloads with the agent capabili
 0. [Setup the environment](./0-prereqs.md).
 1. [Assign issues to GitHub Copilot coding agent](./1-copilot-coding-agent.md) to allow Copilot to work on tasks asynchronously.
 2. [Configure and interact with external services](./2-mcp.md) through Model Context Protocol (MCP).
-3. [Provide context to Copilot](./3-custom-instructions.md) through the use of custom instructions, prompt files, and chat participants.
+3. [Provide context to Copilot](./3-custom-instructions.md) through the use of custom instructions and instruction files.
 4. [Complete a site-wide update](./4-copilot-agent-mode-vscode.md) with the help of Copilot agent mode.
 5. [Review Copilot coding agent's work](./5-reviewing-coding-agent.md) to ensure everything looks good!
+6. [Orchestrate specialist agents](./6-custom-agents-subagents.md) using custom agents and the planner-worker pattern.
+7. [Automate your repository](./7-continuous-ai.md) with agentic workflows that run without you.
 
 ## Scenario
 

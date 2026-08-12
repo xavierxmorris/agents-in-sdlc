@@ -1,0 +1,2 @@
+# gh-aw generates lock files from the corresponding .md workflow sources
+.github/workflows/*.lock.yml linguist-generated=true

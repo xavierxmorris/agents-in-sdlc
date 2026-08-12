@@ -18,6 +18,33 @@ A script file has been created to launch the site. You can run it by:
 
 Then navigate to the [website](http://localhost:4321) to see the site!
 
+## API
+
+The Flask backend serves a JSON API from `server/routes/`. Endpoints are registered as blueprints in `server/app.py`.
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `GET` | `/api/games` | List all games |
+| `GET` | `/api/games/<id>` | Get a single game by ID. Returns `404` with `{"error": "Game not found"}` if it does not exist |
+
+A game is returned in the following shape:
+
+```json
+{
+  "id": 1,
+  "title": "DevOps Dominion",
+  "description": "In DevOps Dominion, strategic planning meets advanced deployment tactics...",
+  "publisher": { "id": 1, "name": "CodeForge Studios" },
+  "category": { "id": 1, "name": "Strategy" },
+  "starRating": 3.0
+}
+```
+
+`publisher` and `category` are `null` when the game has no related record. Note that `starRating` is camelCase in the API response while the underlying column is `star_rating`.
+
+> [!NOTE]
+> Keep this section current when you add or change an endpoint — see the `docs-worker` agent in [.github/agents](./.github/agents).
+
 ## Documentation
 
 The complete workshop documentation is automatically published at GitHub Pages and available at:
