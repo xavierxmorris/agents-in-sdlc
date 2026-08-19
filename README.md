@@ -26,6 +26,8 @@ The Flask backend serves a JSON API from `server/routes/`. Endpoints are registe
 | --- | --- | --- |
 | `GET` | `/api/games` | List all games |
 | `GET` | `/api/games/<id>` | Get a single game by ID. Returns `404` with `{"error": "Game not found"}` if it does not exist |
+| `GET` | `/api/publishers` | List all publishers |
+| `GET` | `/api/publishers/<id>` | Get a single publisher by ID. Returns `404` with `{"error": "Publisher not found"}` if it does not exist |
 
 A game is returned in the following shape:
 
