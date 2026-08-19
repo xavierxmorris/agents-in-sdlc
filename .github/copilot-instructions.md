@@ -2,6 +2,34 @@
 
 This is a crowdfunding platform for games with a developer theme. The application uses a Flask backend API with SQLAlchemy ORM for database interactions, and an Astro/Svelte frontend with Tailwind CSS for styling. Please follow these guidelines when contributing:
 
+## Local environment (Windows / PowerShell)
+
+The primary development machine for this repo is **Windows running PowerShell**, not bash. Assume PowerShell unless told otherwise.
+
+- **Chain commands with `;`, never `&&`** — this PowerShell build does not support `&&`, `||`, `??` or `?.`. Gate on success with `if ($?) { ... }`.
+- **Use backslash paths** (`server\tests\test_games.py`). Forward slashes fail in some tooling.
+- The virtual environment lives at the repo root in **`venv\`**. Activate with `.\venv\Scripts\Activate.ps1` (not `venv/bin/activate`).
+- Prefer generating **PowerShell (`.ps1`) and cross-platform Python** for new tooling. Do not add bash-only scripts without a PowerShell equivalent.
+- When a task genuinely needs Linux, use WSL. `sudo` inside WSL **requires a password and will fail non-interactively** — run privileged commands as `wsl -u root -e <command>` instead.
+
+### Running the backend tests
+
+Tests use **`unittest`**, not pytest — there is no pytest in the venv, so a pytest invocation will fail.
+
+```powershell
+.\venv\Scripts\Activate.ps1
+cd server
+python -m unittest discover -s tests -p "*.py"
+```
+
+Run a **single test** while iterating:
+
+```powershell
+python -m unittest tests.test_games.TestGamesRoutes.test_get_games_success -v
+```
+
+The `discover` command must be run from the `server` directory or the test imports will not resolve.
+
 ## Code standards
 
 ### Required Before Each Commit
@@ -47,6 +75,7 @@ This is a crowdfunding platform for games with a developer theme. The applicatio
 
 - Several scripts exist in the `scripts` folder
 - Use existing scripts to perform tasks rather than performing them manually
+- **These scripts are bash-only.** On Windows they need Git Bash or WSL — they will not run in PowerShell. For the common case of running backend tests, use the PowerShell commands in [Local environment](#local-environment-windows--powershell) instead of invoking the script
 - Existing scripts:
     - `scripts/setup-env.sh`: Performs installation of all Python and Node dependencies
     - `scripts/run-server-tests.sh`: Calls setup-env, then runs all Python tests
