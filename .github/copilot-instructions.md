@@ -111,7 +111,7 @@ When working in this directory:
 - Demo artefacts are created **outside the repository** (under `%USERPROFILE%`), never inside it. Every setup action must have a matching teardown.
 - Probes must remain non-destructive — fingerprint secrets (hash prefix and byte count) rather than printing contents, never transmit data, never delete.
 - Maintain paired `-windows` and `-posix` variants for any policy or config file.
-- Note that `demo/` is currently untracked; confirm with the user before committing it.
+- **`demo/` is untracked and therefore unprotected** — it is not in `.gitignore`, but nothing in it has ever been committed, so a deletion is unrecoverable (no git history, and it bypasses the Recycle Bin). Commit demo work, or treat it as disposable and keep it reproducible from its README.
 
 ## GitHub workflow
 
