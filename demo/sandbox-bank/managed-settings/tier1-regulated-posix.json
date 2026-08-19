@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "disableBypassPermissionsMode": "disable"
+  },
+
+  "sandbox": {
+    "enabled": true,
+    "allowBypass": false,
+    "sandboxMcpServers": true,
+    "sandboxLspServers": true,
+    "gitAuth": false,
+    "ghAuth": false,
+    "allowDevToolAccess": false,
+    "userPolicy": {
+      "filesystem": {
+        "deniedPaths": [
+          "~/.ssh",
+          "~/.aws",
+          "~/.azure",
+          "~/.kube",
+          "~/.git-credentials",
+          "~/.config/gh",
+          "~/.gnupg",
+          "~/.docker/config.json",
+          "~/wbc-sandbox-demo/secrets"
+        ]
+      },
+      "network": {
+        "allowOutbound": false,
+        "allowLocalNetwork": false
+      },
+      "seatbelt": {
+        "keychainAccess": false
+      }
+    }
+  },
+
+  "strictKnownMarketplaces": true,
+  "allowedMcpServers": [
+    { "serverUrl": "https://mcp.internal.westpac.example/*" }
+  ]
+}

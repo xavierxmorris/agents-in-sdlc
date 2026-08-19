@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "disableBypassPermissionsMode": "disable"
+  },
+
+  "sandbox": {
+    "enabled": true,
+    "sandboxMcpServers": true,
+    "sandboxLspServers": true,
+    "userPolicy": {
+      "filesystem": {
+        "deniedPaths": [
+          "C:\\Users\\REPLACE_USERNAME\\.ssh",
+          "C:\\Users\\REPLACE_USERNAME\\.aws",
+          "C:\\Users\\REPLACE_USERNAME\\.azure",
+          "C:\\Users\\REPLACE_USERNAME\\.kube",
+          "C:\\Users\\REPLACE_USERNAME\\.gnupg",
+          "C:\\Users\\REPLACE_USERNAME\\.git-credentials",
+          "C:\\Users\\REPLACE_USERNAME\\AppData\\Roaming\\GitHub CLI",
+          "C:\\Users\\REPLACE_USERNAME\\AppData\\Roaming\\Microsoft\\Credentials",
+          "C:\\Users\\REPLACE_USERNAME\\AppData\\Local\\Microsoft\\Credentials"
+        ]
+      }
+    }
+  },
+
+  "strictKnownMarketplaces": true
+}
