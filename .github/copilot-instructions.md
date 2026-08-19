@@ -34,7 +34,7 @@ The `discover` command must be run from the `server` directory or the test impor
 
 ### Required Before Each Commit
 
-- Run Python tests to ensure backend functionality
+- Run Python tests to ensure backend functionality — see [Running the backend tests](#running-the-backend-tests) for the exact command
 - For frontend changes, run builds in the client directory to verify build success and the end-to-end tests, to ensure everything works correctly
 - When making API changes, update and run the corresponding tests to ensure everything works correctly
 - When updating models, ensure database migrations are included if needed
@@ -93,7 +93,29 @@ The `discover` command must be run from the `server` directory or the test impor
   - `src/layouts/`: Astro layout templates
   - `src/pages/`: Astro page routes
   - `src/styles/`: CSS and Tailwind configuration
-- `scripts/`: Development and deployment scripts
+- `scripts/`: Development and deployment scripts (bash)
 - `data/`: Database files
+- `demo/`: Self-contained demos, not part of the application (see below)
 - `docs/`: Project documentation - Automatically deployed to GitHub Pages: https://connect.copilot-workshops.com
+- `venv/`: Python virtual environment (repo root)
 - `README.md`: Project documentation
+
+## Demos (`demo/`)
+
+`demo/` holds standalone demo material that is **independent of the Tailspin Toys application** — it does not use Flask, SQLAlchemy, Astro or Svelte, and the guidance above does not apply to it. Currently `demo/sandbox-bank/`, a Windows-first PowerShell + Python demo of GitHub Copilot CLI sandboxing.
+
+When working in this directory:
+
+- Entry points are PowerShell drivers (`Invoke-SandboxDemo.ps1`, `Install-ManagedSettings.ps1`). Keep the Python helpers cross-platform so the same demo runs from WSL.
+- **All credentials and customer data are synthetic.** Never introduce real secrets, and never commit any secret-shaped file.
+- Demo artefacts are created **outside the repository** (under `%USERPROFILE%`), never inside it. Every setup action must have a matching teardown.
+- Probes must remain non-destructive — fingerprint secrets (hash prefix and byte count) rather than printing contents, never transmit data, never delete.
+- Maintain paired `-windows` and `-posix` variants for any policy or config file.
+- Note that `demo/` is currently untracked; confirm with the user before committing it.
+
+## GitHub workflow
+
+- `origin` is **`se-copilot-workshops/agents-in-sdlc`**, but issues and pull requests for this work are raised on the fork **`xavierxmorris/agents-in-sdlc`**. Confirm the target repository before creating an issue, PR or gist rather than assuming `origin`.
+- Use the `gh` CLI for GitHub operations.
+- Link pull requests to their issue with a `Closes #<number>` line in the PR body so the issue auto-closes on merge.
+- The canonical local clone is `C:\Users\xaviermorris\repos\agents-in-sdlc`. An older clone exists at `C:\Githublab\agents-in-sdlc` — do not use it.
