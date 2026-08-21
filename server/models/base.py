@@ -6,6 +6,7 @@ class BaseModel(db.Model):
     
     @staticmethod
     def validate_string_length(field_name, value, min_length=2, allow_none=False):
+        """Validate string fields for type and minimum length requirements."""
         if value is None:
             if allow_none:
                 return value

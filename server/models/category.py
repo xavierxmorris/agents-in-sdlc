@@ -14,16 +14,20 @@ class Category(BaseModel):
     
     @validates('name')
     def validate_name(self, key, name):
+        """Validate category names before persisting."""
         return self.validate_string_length('Category name', name, min_length=2)
         
     @validates('description')
     def validate_description(self, key, description):
+        """Validate optional category descriptions before persisting."""
         return self.validate_string_length('Description', description, min_length=10, allow_none=True)
     
     def __repr__(self):
+        """Return a concise string representation for debugging."""
         return f'<Category {self.name}>'
         
     def to_dict(self):
+        """Serialize category data for API responses."""
         return {
             'id': self.id,
             'name': self.name,

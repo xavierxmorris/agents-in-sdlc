@@ -14,16 +14,20 @@ class Publisher(BaseModel):
 
     @validates('name')
     def validate_name(self, key, name):
+        """Validate publisher names before persisting."""
         return self.validate_string_length('Publisher name', name, min_length=2)
 
     @validates('description')
     def validate_description(self, key, description):
+        """Validate optional publisher descriptions before persisting."""
         return self.validate_string_length('Description', description, min_length=10, allow_none=True)
 
     def __repr__(self):
+        """Return a concise string representation for debugging."""
         return f'<Publisher {self.name}>'
 
     def to_dict(self):
+        """Serialize publisher data for API responses."""
         return {
             'id': self.id,
             'name': self.name,
