@@ -111,11 +111,12 @@ When working in this directory:
 - Demo artefacts are created **outside the repository** (under `%USERPROFILE%`), never inside it. Every setup action must have a matching teardown.
 - Probes must remain non-destructive — fingerprint secrets (hash prefix and byte count) rather than printing contents, never transmit data, never delete.
 - Maintain paired `-windows` and `-posix` variants for any policy or config file.
-- **`demo/` is untracked and therefore unprotected** — it is not in `.gitignore`, but nothing in it has ever been committed, so a deletion is unrecoverable (no git history, and it bypasses the Recycle Bin). Commit demo work, or treat it as disposable and keep it reproducible from its README.
+- **`demo/` is tracked — commit your work there.** It was untracked for a long period and a deletion was unrecoverable; that is no longer the case. Do not let new demo material sit untracked, and note that `demo/sandbox-bank/.gitignore` deliberately excludes generated evidence (`before.json`, `after.json`, `vendor-docs/UPGRADE_NOTES.md`) because those capture local hostnames and paths.
 
 ## GitHub workflow
 
-- `origin` is **`se-copilot-workshops/agents-in-sdlc`**, but issues and pull requests for this work are raised on the fork **`xavierxmorris/agents-in-sdlc`**. Confirm the target repository before creating an issue, PR or gist rather than assuming `origin`.
+- In this clone, `origin` is the fork **`xavierxmorris/agents-in-sdlc`** and `upstream` is **`se-copilot-workshops/agents-in-sdlc`** (push to `upstream` is disabled). Issues and pull requests for this work are raised on the fork. Confirm the target repository with `git remote -v` before creating an issue, PR or gist.
+- Avoid branch names that duplicate a directory path — a branch literally named `demo/sandbox-bank` makes every `git log`/`git diff` on that ref ambiguous and requires the `refs/heads/` prefix to disambiguate.
 - Use the `gh` CLI for GitHub operations.
 - Link pull requests to their issue with a `Closes #<number>` line in the PR body so the issue auto-closes on merge.
 - The canonical local clone is `C:\Users\xaviermorris\repos\agents-in-sdlc`. An older clone exists at `C:\Githublab\agents-in-sdlc` — do not use it.

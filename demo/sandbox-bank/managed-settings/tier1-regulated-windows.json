@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "disableBypassPermissionsMode": "disable"
+  },
+
+  "sandbox": {
+    "enabled": true,
+    "allowBypass": false,
+    "sandboxMcpServers": true,
+    "sandboxLspServers": true,
+    "gitAuth": false,
+    "ghAuth": false,
+    "allowDevToolAccess": false,
+    "userPolicy": {
+      "filesystem": {
+        "deniedPaths": [
+          "C:\\Users\\REPLACE_USERNAME\\.ssh",
+          "C:\\Users\\REPLACE_USERNAME\\.aws",
+          "C:\\Users\\REPLACE_USERNAME\\.azure",
+          "C:\\Users\\REPLACE_USERNAME\\.kube",
+          "C:\\Users\\REPLACE_USERNAME\\.gnupg",
+          "C:\\Users\\REPLACE_USERNAME\\.git-credentials",
+          "C:\\Users\\REPLACE_USERNAME\\.docker\\config.json",
+          "C:\\Users\\REPLACE_USERNAME\\AppData\\Roaming\\GitHub CLI",
+          "C:\\Users\\REPLACE_USERNAME\\AppData\\Roaming\\NuGet",
+          "C:\\Users\\REPLACE_USERNAME\\AppData\\Roaming\\Microsoft\\Credentials",
+          "C:\\Users\\REPLACE_USERNAME\\AppData\\Local\\Microsoft\\Credentials",
+          "C:\\Users\\REPLACE_USERNAME\\wbc-sandbox-demo\\secrets"
+        ]
+      },
+      "network": {
+        "allowOutbound": false,
+        "allowLocalNetwork": false
+      }
+    }
+  },
+
+  "strictKnownMarketplaces": true,
+  "allowedMcpServers": [
+    { "serverUrl": "https://mcp.internal.westpac.example/*" }
+  ]
+}
