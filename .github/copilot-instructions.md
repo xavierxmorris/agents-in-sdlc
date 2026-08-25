@@ -107,9 +107,10 @@ The `discover` command must be run from the `server` directory or the test impor
 When working in this directory:
 
 - Entry points are PowerShell drivers (`Invoke-SandboxDemo.ps1`, `Install-ManagedSettings.ps1`). Keep the Python helpers cross-platform so the same demo runs from WSL.
-- **All credentials and customer data are synthetic.** Never introduce real secrets, and never commit any secret-shaped file.
+- **All credentials and customer data are synthetic.** Never introduce real secrets, and never commit any secret-shaped file. Add new fake credentials to the `FAKE_SECRETS` dict in `setup_demo.py` rather than writing files ad hoc, and prefix every one with the `BANNER` constant (`# SYNTHETIC DEMO DATA - NOT A REAL CREDENTIAL - SAFE TO DELETE`) so an accidental commit or scanner hit is self-evidently harmless. Write artefacts through `_write()` so they land under `DEMO_ROOT` and stay inside teardown's reach.
 - Demo artefacts are created **outside the repository** (under `%USERPROFILE%`), never inside it. Every setup action must have a matching teardown.
-- Probes must remain non-destructive — fingerprint secrets (hash prefix and byte count) rather than printing contents, never transmit data, never delete.
+- Probes must remain non-destructive: never delete, never transmit, and confine any write to `DEMO_ROOT`. `probe_destructive_write()` demonstrates reach by writing a marker file it then removes — it must never damage real data to prove a point.
+- Probe output must go through `_fingerprint()` in `blast_radius_probe.py`, which returns `<name>: <n> bytes, sha256:<8 hex>`. Never print, log or transmit file contents — the demo has to prove a file was *readable* without disclosing what a real one would contain, since the same probe runs against genuine paths like `~/.aws/credentials` and `~/.ssh/id_rsa`.
 - Maintain paired `-windows` and `-posix` variants for any policy or config file.
 - **`demo/` is tracked — commit your work there.** It was untracked for a long period and a deletion was unrecoverable; that is no longer the case. Do not let new demo material sit untracked, and note that `demo/sandbox-bank/.gitignore` deliberately excludes generated evidence (`before.json`, `after.json`, `vendor-docs/UPGRADE_NOTES.md`) because those capture local hostnames and paths.
 
