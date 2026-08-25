@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "disableBypassPermissionsMode": "disable"
+  },
+
+  "sandbox": {
+    "enabled": true,
+    "sandboxMcpServers": true,
+    "sandboxLspServers": true,
+    "userPolicy": {
+      "filesystem": {
+        "deniedPaths": [
+          "~/.ssh",
+          "~/.aws",
+          "~/.azure",
+          "~/.kube",
+          "~/.git-credentials",
+          "~/.config/gh",
+          "~/.gnupg"
+        ]
+      }
+    }
+  },
+
+  "strictKnownMarketplaces": true
+}
